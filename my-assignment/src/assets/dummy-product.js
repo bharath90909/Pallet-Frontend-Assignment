@@ -1,0 +1,5 @@
+// Base64 encoded simple placeholder image
+const dummyProduct =
+  "data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAwIiBoZWlnaHQ9IjIwMCIgdmlld0JveD0iMCAwIDIwMCAyMDAiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxyZWN0IHdpZHRoPSIyMDAiIGhlaWdodD0iMjAwIiBmaWxsPSIjMjAyMDIwIi8+CjxwYXRoIGQ9Ik04NSA2NUgxMTVWMTM1SDg1Vjk1SDY1VjEzNUgzNVY2NUg2NVY4NUg4NVY2NVoiIGZpbGw9IiM0MDQwNDAiLz4KPC9zdmc+Cg==";
+
+export default dummyProduct;

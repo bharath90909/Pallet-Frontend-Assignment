@@ -27,6 +27,8 @@ export const ProductProvider = ({ children }) => {
         name: p.name,
         price: p.mrp ? p.mrp.mrp : 0,
         category: p.main_category,
+        description: p.description,
+        image_url: p.images?.front || "",
       }));
 
       setProducts(productsWithId);

@@ -2,6 +2,41 @@ import { useParams, Link } from "react-router-dom";
 import { Box, Typography, Button, Container } from "@mui/material";
 import { useProducts } from "./context/ProductContext";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
+import StarIcon from "@mui/icons-material/Star";
+import StarOutlineIcon from "@mui/icons-material/StarOutline";
+import dummyProduct from "./assets/dummyImages/dummy-product.png";
+
+const StarRating = () => {
+  return (
+    <Box
+      sx={{
+        display: "flex",
+        alignItems: "center",
+        gap: 0.5,
+        mb: 3,
+      }}
+    >
+      {[1, 2, 3].map((_, index) => (
+        <StarIcon
+          key={`filled-${index}`}
+          sx={{
+            color: "rgba(255, 255, 255, 0.7)",
+            fontSize: "1.8rem",
+          }}
+        />
+      ))}
+      {[1, 2].map((_, index) => (
+        <StarOutlineIcon
+          key={`outline-${index}`}
+          sx={{
+            color: "rgba(255, 255, 255, 0.3)",
+            fontSize: "1.8rem",
+          }}
+        />
+      ))}
+    </Box>
+  );
+};
 
 export default function ProductDetail() {
   const { id } = useParams();
@@ -43,6 +78,8 @@ export default function ProductDetail() {
     );
   }
 
+  const displayUrl = product.image_url || dummyProduct;
+
   return (
     <Container maxWidth="lg" sx={{ py: 8 }}>
       <Button
@@ -78,17 +115,21 @@ export default function ProductDetail() {
             overflow: "hidden",
             borderRadius: 2,
             bgcolor: "rgba(255, 255, 255, 0.05)",
-            "& img": {
-              position: "absolute",
-              top: 0,
-              left: 0,
-              width: "100%",
-              height: "100%",
-              objectFit: "cover",
-            },
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            padding: 2,
           }}
         >
-          <img src="https://placehold.co/800x800/111/333" alt={product.name} />
+          <img
+            src={displayUrl}
+            alt={product.name}
+            style={{
+              maxWidth: "100%",
+              maxHeight: "100%",
+              objectFit: "contain",
+            }}
+          />
         </Box>
 
         <Box
@@ -100,7 +141,7 @@ export default function ProductDetail() {
           }}
         >
           <Typography
-            variant="h3"
+            variant="h5"
             sx={{
               fontWeight: "normal",
               letterSpacing: 1,
@@ -119,6 +160,8 @@ export default function ProductDetail() {
             ₹{product.price}
           </Typography>
 
+          <StarRating />
+
           <Typography
             variant="body1"
             sx={{
@@ -129,6 +172,17 @@ export default function ProductDetail() {
           >
             <span style={{ color: "text.primary" }}>Category:</span>
             {product.category}
+          </Typography>
+          <Typography
+            variant="body1"
+            sx={{
+              color: "text.secondary",
+              display: "flex",
+              gap: 1,
+            }}
+          >
+            <span style={{ color: "text.primary" }}>Description:</span>
+            {product?.description || "No description available"}
           </Typography>
         </Box>
       </Box>

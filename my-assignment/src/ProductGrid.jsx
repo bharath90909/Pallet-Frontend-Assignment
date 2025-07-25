@@ -12,11 +12,49 @@ import { styled } from "@mui/material/styles";
 import { useNavigate } from "react-router-dom";
 import { useProducts } from "./context/ProductContext";
 import SearchIcon from "@mui/icons-material/Search";
+import dummyProduct from "./assets/dummyImages/dummy-product.png";
 
 const columns = [
   {
+    field: "image",
+    headerName: "Product Image",
+    flex: 1,
+    minWidth: 100,
+    align: "center",
+    headerAlign: "center",
+    disableColumnMenu: true,
+    sortable: false,
+    renderCell: (params) => {
+      const displayUrl = params.row.image_url || dummyProduct;
+
+      return (
+        <Box
+          sx={{
+            width:"100%",
+            height: "100%",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            
+          }}
+        >
+          <img
+            src={displayUrl}
+            alt={params.row.name}
+            style={{
+              width: "90%",
+              height: "90%",
+              objectFit: "contain",
+              borderRadius: "4px",
+            }}
+          />
+        </Box>
+      );
+    },
+  },
+  {
     field: "name",
-    headerName: "Name",
+    headerName: "Product Name",
     flex: 2,
     minWidth: 200,
     align: "center",
