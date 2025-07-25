@@ -145,7 +145,6 @@ export default function ProductDetail() {
               gap: 1,
             }}
           >
-            <span style={{ color: "text.primary" }}>Description:</span>
             {product?.description}
           </Typography>
         </Box>

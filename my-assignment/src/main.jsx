@@ -7,12 +7,11 @@ import { ProductProvider } from "./context/ProductProvider";
 import App from "./App";
 
 ReactDOM.createRoot(document.getElementById("root")).render(
-  <React.StrictMode>
+  
     <ThemeProvider theme={theme}>
       <CssBaseline />
       <ProductProvider>
         <App />
       </ProductProvider>
     </ThemeProvider>
-  </React.StrictMode>
 );
