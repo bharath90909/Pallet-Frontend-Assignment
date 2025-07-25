@@ -1,14 +1,6 @@
-import { createContext, useContext, useState, useEffect } from "react";
-
-export const ProductContext = createContext();
-
-export const useProducts = () => {
-  const context = useContext(ProductContext);
-  if (!context) {
-    throw new Error("useProducts must be used within a ProductProvider");
-  }
-  return context;
-};
+import { useEffect, useState } from "react";
+import dummyProduct from "../assets/dummyImages/dummy-product.png";
+import { ProductContext } from "../hooks/useProductsContext";
 
 export const ProductProvider = ({ children }) => {
   const [products, setProducts] = useState([]);
@@ -22,16 +14,16 @@ export const ProductProvider = ({ children }) => {
       const response = await fetch(`/cms/products?page=${page + 1}`);
       const data = await response.json();
 
-      const productsWithId = data.products.map((p, index) => ({
+      const products = data.products.map((p, index) => ({
         id: p.id !== null ? p.id : `${page}-${index}`,
-        name: p.name,
+        name: p.name || "Product Name Not Available",
+        category: p.main_category || "Category Not Available",
+        description: p.description || "Product Description Not Available",
         price: p.mrp ? p.mrp.mrp : 0,
-        category: p.main_category,
-        description: p.description,
-        image_url: p.images?.front || "",
+        image_url: p.images?.top || dummyProduct,
       }));
 
-      setProducts(productsWithId);
+      setProducts(products);
       setRowCount(parseInt(data.totalResults, 10));
     } catch (error) {
       console.error("Error fetching products:", error);
@@ -44,15 +36,17 @@ export const ProductProvider = ({ children }) => {
     fetchProducts(currentPage);
   }, [currentPage]);
 
-  const value = {
-    products,
-    rowCount,
-    loading,
-    currentPage,
-    setCurrentPage,
-  };
-
   return (
-    <ProductContext.Provider value={value}>{children}</ProductContext.Provider>
+    <ProductContext.Provider
+      value={{
+        products,
+        rowCount,
+        loading,
+        currentPage,
+        setCurrentPage,
+      }}
+    >
+      {children}
+    </ProductContext.Provider>
   );
 };

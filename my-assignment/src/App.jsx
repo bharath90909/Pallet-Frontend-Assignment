@@ -1,16 +1,40 @@
-import "./App.css";
-import ProductGrid from "./ProductGrid";
+import { lazy, Suspense } from "react";
+import { RouterProvider, createBrowserRouter } from "react-router-dom";
+import Spinner from "./components/Spinner";
+import ErrorBoundary from "./components/ErrorBoundary";
+import RootLayout from "./layout/RootLayout";
+const Products = lazy(() => import("./pages/Products"));
+const ProductDetail = lazy(() => import("./pages/ProductDetail"));
 
 function App() {
-  return (
-    <>
-      <h1>Our Products</h1>
-      <p>Explore our wide range of quality grocery products</p>
-      <div className="product-grid-container">
-        <ProductGrid />
-      </div>
-    </>
-  );
+  const appRouter = createBrowserRouter([
+    {
+      path: "/",
+      element: <RootLayout />,
+      errorElement: <ErrorBoundary />,
+      children: [
+        {
+          index: true,
+          element: (
+            <Suspense fallback={<Spinner />}>
+              <Products />
+            </Suspense>
+          ),
+        },
+        {
+          path: "product/:id",
+          element: (
+            <Suspense fallback={<Spinner />}>
+              <ProductDetail />
+            </Suspense>
+          ),
+        },
+      ],
+    },
+  ]);
+
+  return <RouterProvider router={appRouter} />;
 }
+
 
 export default App;

@@ -1,46 +1,12 @@
 import { useParams, Link } from "react-router-dom";
 import { Box, Typography, Button, Container } from "@mui/material";
-import { useProducts } from "./context/ProductContext";
+import { useProductsContext } from "../hooks/useProductsContext";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
-import StarIcon from "@mui/icons-material/Star";
-import StarOutlineIcon from "@mui/icons-material/StarOutline";
-import dummyProduct from "./assets/dummyImages/dummy-product.png";
-
-const StarRating = () => {
-  return (
-    <Box
-      sx={{
-        display: "flex",
-        alignItems: "center",
-        gap: 0.5,
-        mb: 3,
-      }}
-    >
-      {[1, 2, 3].map((_, index) => (
-        <StarIcon
-          key={`filled-${index}`}
-          sx={{
-            color: "rgba(255, 255, 255, 0.7)",
-            fontSize: "1.8rem",
-          }}
-        />
-      ))}
-      {[1, 2].map((_, index) => (
-        <StarOutlineIcon
-          key={`outline-${index}`}
-          sx={{
-            color: "rgba(255, 255, 255, 0.3)",
-            fontSize: "1.8rem",
-          }}
-        />
-      ))}
-    </Box>
-  );
-};
+import StarRating from "../components/StarRating";
 
 export default function ProductDetail() {
   const { id } = useParams();
-  const { products } = useProducts();
+  const { products } = useProductsContext();
 
   const product = products.find((p) => p.id === id);
 
@@ -77,8 +43,6 @@ export default function ProductDetail() {
       </Container>
     );
   }
-
-  const displayUrl = product.image_url || dummyProduct;
 
   return (
     <Container maxWidth="lg" sx={{ py: 8 }}>
@@ -122,7 +86,7 @@ export default function ProductDetail() {
           }}
         >
           <img
-            src={displayUrl}
+            src={product.image_url}
             alt={product.name}
             style={{
               maxWidth: "100%",
@@ -182,7 +146,7 @@ export default function ProductDetail() {
             }}
           >
             <span style={{ color: "text.primary" }}>Description:</span>
-            {product?.description || "No description available"}
+            {product?.description}
           </Typography>
         </Box>
       </Box>
